@@ -50,10 +50,6 @@ if args.listboards:
 		print b.name
 	sys.exit()
 
-print "From: Alexander Graf <agraf@suse.de>"
-print "Subject: A&O Week %02d, Alex" % ( datetime.datetime.now().isocalendar()[1] )
-print ""
-
 for b in boards:
 	if b.name != args.board:
 		continue
