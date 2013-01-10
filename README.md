@@ -24,17 +24,17 @@ First Steps
 
 The first thing you probably want to do is list all repos:
 
-  $ ./trello.py -u <devkey> -p <secret> -L
-    Foo Board
-    Bar Board
-    Really awesome list
+	$ ./trello.py -u <devkey> -p <secret> -L
+	  Foo Board
+	  Bar Board
+	  Really awesome list
 
 Then you can take one of those boards and check out its contents:
 
-  $ ./trello.py -u <devkey> -p <secret> -b "Foo Board"
-    [Todo]
-      - Talk about trello-print
-    [Done]
-      - Write documentation
+	$ ./trello.py -u <devkey> -p <secret> -b "Foo Board"
+	  [Todo]
+	    - Talk about trello-print
+	  [Done]
+	    - Write documentation
 
 Congratulations, you can now play with trello-print!
