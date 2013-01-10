@@ -68,11 +68,11 @@ for b in boards:
 		for c in cards:
 			if (may_print_card(c) == 0):
 				continue
-			print_item("  ", c.name)
+			print_item(2*" ", c.name)
 			if len(c.checklists) > 0:
 				for cl in c.checklists:
 					for i in cl.items:
-						print_item("    ", "[%s] %s" % ( checkx(i), i['name'] ))
+						print_item(4*" ", "[%s] %s" % ( checkx(i), i['name'] ))
 			for co in reversed(c.comments):
-				print_item("    ", co['data']['text'])
+				print_item(4*" ", co['data']['text'])
 	break
