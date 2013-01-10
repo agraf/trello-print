@@ -54,6 +54,7 @@ if args.listboards:
 for b in boards:
 	if b.name != args.board:
 		continue
+	firstlist = True
 	for l in b.all_lists():
 		cards = l.list_cards()
 		print_list = 0
@@ -64,7 +65,10 @@ for b in boards:
 			print_list = 1
 		if print_list == 0:
 			continue
-		print ""
+		if firstlist == True:
+			firstlist = False
+		else:
+			print ""
 		print "[%s]" % ( l.name )
 		for c in cards:
 			if (may_print_card(c) == 0):
