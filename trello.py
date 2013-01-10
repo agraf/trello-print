@@ -2,6 +2,7 @@
 
 import sys; sys.path.insert(0, "/usr/local/lib/python2.7/site-packages")
 from trello import TrelloClient
+from operator import itemgetter
 import os
 import datetime
 import textwrap
@@ -71,7 +72,7 @@ for b in boards:
 			print_item(2*" ", c.name)
 			if len(c.checklists) > 0:
 				for cl in c.checklists:
-					for i in cl.items:
+					for i in sorted(cl.items, key=itemgetter('pos')):
 						print_item(4*" ", "[%s] %s" % ( checkx(i), i['name'] ))
 			for co in reversed(c.comments):
 				print_item(4*" ", co['data']['text'])
