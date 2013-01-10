@@ -7,6 +7,10 @@ import os
 import datetime
 import textwrap
 import argparse
+import bugzilla
+from bugzilla import Bugzilla
+import logging
+
 
 def split_len(seq, length):
 	return [seq[i:i+length] for i in range(0, len(seq), length)]
@@ -32,6 +36,21 @@ def checkx(c):
 		return 'X'
 	return ' '
 
+def check_bugzilla(url):
+	global bz
+
+	if not url.startswith("https://bugzilla.novell.com"):
+		return
+	try:
+		if bz == None:
+			bz = Bugzilla(url="https://bugzilla.novell.com/xmlrpc.cgi", cookiefile=None)
+		bug_id = url[url.find("id=")+3::]
+		bug = bz._getbug(int(bug_id))
+		bug_desc = bug['short_desc']
+	except Exception as e:
+		bug_desc = e
+	print_item(4*" ", "(%s)" % bug_desc)
+
 ###############################################################################
 
 parser = argparse.ArgumentParser()
@@ -44,6 +63,7 @@ args = parser.parse_args()
 
 trello = TrelloClient(args.devkey, args.secret)
 boards = trello.list_boards()
+bz = None
 
 if args.listboards:
 	boards = trello.list_boards()
@@ -74,6 +94,7 @@ for b in boards:
 			if (may_print_card(c) == 0):
 				continue
 			print_item(2*" ", c.name)
+			check_bugzilla(c.name)
 			if len(c.checklists) > 0:
 				for cl in c.checklists:
 					for i in sorted(cl.items, key=itemgetter('pos')):
