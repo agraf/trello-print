@@ -52,7 +52,7 @@ def check_bugzilla(url):
 	print_item(4*" ", "(%s)" % bug_desc)
 
 def labels(card):
-	if args.label != None:
+	if args.printlabels == False:
 		return ""
 	r = ""
 	for l in c.labels:
@@ -64,6 +64,7 @@ def labels(card):
 parser = argparse.ArgumentParser()
 parser.add_argument("-b", "--board", help='board to print (defaults to "A&O")', default="A&O")
 parser.add_argument("-l", "--label", help='filter by label (defaults to none)')
+parser.add_argument("--printlabels", help='print labels (defaults to false)', action="store_true")
 parser.add_argument("-L", "--listboards", help='list all available boards', action="store_true")
 parser.add_argument("-u", "--devkey", help='developer key to access trello', required=True)
 parser.add_argument("-p", "--secret", help='developer secret to access trello', required=True)
