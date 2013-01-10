@@ -5,6 +5,13 @@ from trello import TrelloClient
 import os
 import datetime
 import textwrap
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-b", "--board", help='board to print (defaults to "A&O")', default="A&O")
+parser.add_argument("-l", "--label", help='filter by label (defaults to none)')
+args = parser.parse_args()
+
 
 print "From: Alexander Graf <agraf@suse.de>"
 print "Subject: A&O Week %02d, Alex" % ( datetime.datetime.now().isocalendar()[1] )
@@ -26,10 +33,10 @@ def print_item(indent, text):
 def may_print_card(c):
 	if len(c.labels) == 0:
 		return 1
-	if len(sys.argv) < 2:
+	if args.label == None:
 		return 1
 	for l in c.labels:
-		if l["name"] == sys.argv[1]:
+		if l["name"] == args.label:
 			return 1
 	return 0
 
@@ -39,7 +46,7 @@ def checkx(c):
 	return ' '
 
 for b in boards:
-	if b.name != "A&O":
+	if b.name != args.board:
 		continue
 	for l in b.all_lists():
 		cards = l.list_cards()
