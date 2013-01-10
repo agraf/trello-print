@@ -37,9 +37,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-b", "--board", help='board to print (defaults to "A&O")', default="A&O")
 parser.add_argument("-l", "--label", help='filter by label (defaults to none)')
 parser.add_argument("-L", "--listboards", help='list all available boards', action="store_true")
+parser.add_argument("-u", "--devkey", help='developer key to access trello', required=True)
+parser.add_argument("-p", "--secret", help='developer secret to access trello', required=True)
 args = parser.parse_args()
 
-trello = TrelloClient("3056bae48f861018da6448a23b704258", "83b7dcd81038245d9cc02aff8d085c55e4bae38de0eb32f7297cb41060608a6f")
+trello = TrelloClient(args.devkey, args.secret)
 boards = trello.list_boards()
 
 if args.listboards:
