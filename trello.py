@@ -7,20 +7,6 @@ import datetime
 import textwrap
 import argparse
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-b", "--board", help='board to print (defaults to "A&O")', default="A&O")
-parser.add_argument("-l", "--label", help='filter by label (defaults to none)')
-args = parser.parse_args()
-
-
-print "From: Alexander Graf <agraf@suse.de>"
-print "Subject: A&O Week %02d, Alex" % ( datetime.datetime.now().isocalendar()[1] )
-print ""
-
-trello = TrelloClient("3056bae48f861018da6448a23b704258", "83b7dcd81038245d9cc02aff8d085c55e4bae38de0eb32f7297cb41060608a6f")
-
-boards = trello.list_boards()
-
 def split_len(seq, length):
 	return [seq[i:i+length] for i in range(0, len(seq), length)]
 
@@ -44,6 +30,27 @@ def checkx(c):
 	if c['checked']:
 		return 'X'
 	return ' '
+
+###############################################################################
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-b", "--board", help='board to print (defaults to "A&O")', default="A&O")
+parser.add_argument("-l", "--label", help='filter by label (defaults to none)')
+parser.add_argument("-L", "--listboards", help='list all available boards', action="store_true")
+args = parser.parse_args()
+
+trello = TrelloClient("3056bae48f861018da6448a23b704258", "83b7dcd81038245d9cc02aff8d085c55e4bae38de0eb32f7297cb41060608a6f")
+boards = trello.list_boards()
+
+if args.listboards:
+	boards = trello.list_boards()
+	for b in boards:
+		print b.name
+	sys.exit()
+
+print "From: Alexander Graf <agraf@suse.de>"
+print "Subject: A&O Week %02d, Alex" % ( datetime.datetime.now().isocalendar()[1] )
+print ""
 
 for b in boards:
 	if b.name != args.board:
