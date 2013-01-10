@@ -51,6 +51,14 @@ def check_bugzilla(url):
 		bug_desc = e
 	print_item(4*" ", "(%s)" % bug_desc)
 
+def labels(card):
+	if args.label != None:
+		return ""
+	r = ""
+	for l in c.labels:
+		r += "[%s] " % l["name"]
+	return r
+
 ###############################################################################
 
 parser = argparse.ArgumentParser()
@@ -93,7 +101,7 @@ for b in boards:
 		for c in cards:
 			if (may_print_card(c) == 0):
 				continue
-			print_item(2*" ", c.name)
+			print_item(2*" ", "%s%s" % ( labels(c), c.name ) )
 			check_bugzilla(c.name)
 			if len(c.checklists) > 0:
 				for cl in c.checklists:
